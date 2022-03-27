@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Vector.h"
-#include "Blocks_Problem.h"
+#include "STL/Pair.h"
+#include "Problems/Maze_Problem.h"
 
 int main() {
     // Learn_Vector();
-    Blocks_Problem();
+    Find_Path_BFS();
     return 0;
 }
