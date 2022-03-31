@@ -83,8 +83,8 @@ void Find_Path_BFS() {
 }
 
 void Find_Path_DFS() {
-    pair<int, int> Start, End;
     int m, n;
+    pair<int, int> Start, End;
     cout << "请输入矩阵的长和宽" << endl;
     cin >> m >> n;
     int map[m][n], visited[m][n];
@@ -98,7 +98,8 @@ void Find_Path_DFS() {
     cin >> Start.first >> Start.second >> End.first >> End.second;
 
     stack<Location> s;
-    Location first = {Start, {-1, -1}};
+    Location first;
+    first.point = Start;
     s.push(first);
 
     while (!s.empty()) {
@@ -122,7 +123,22 @@ void Find_Path_DFS() {
             return;
         }
 
-
+        bool flag = false;  // 标志，当前位置的前后左右有一个方向可以走，标记为true，否则为false
+        for (auto & i : dir) {
+            int next_r = cur.point.first + i[0];
+            int next_c = cur.point.second + i[1];
+            if (map[next_r][next_c] == 0 && visited[next_r][next_c] == 0 && next_r < m && next_r >= 0 &&
+                next_c >= 0 && next_c < n) {
+                Location next;
+                next.point.first = next_r;
+                next.point.second = next_c;
+                s.push(next);
+                visited[next_r][next_c] = 1;
+                flag = true;
+                break;  // 找到一个方向可以走就退出循环，这是与广度搜索不同的点，广度搜索在这里是不会退出的，而是继续把四个方向都判断一遍
+            }
+        }
+        if (!flag) s.pop();  // 如果这个位置的四个方向都不能走，将这个出栈，也就是回溯
     }
 }
 
